@@ -6,24 +6,29 @@ import Owner from './components/Owner';
 import Salesman from './components/Salesman';
 import Manager from './components/Manager';
 import InvertaryClerk from './components/InventaryClerk';
+import DashboardNavbar from './components/DashboardNavbar';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
+import NavbarSalesman from './components/navbarSalesMan';
+import SalesmanHero from './components/salesmanHero';
 function App() {
   return (
     <div>
-      
-      <BrowserRouter>
+      <NavbarSalesman/>
+      <SalesmanHero/>
+      {/* <BrowserRouter>
         <Navbar />
+      
         <Routes>
-          <Route path="/home" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
-          {/* <Route path="/owner" element={<Owner />} />
-          <Route path="/salesman" element={<Salesman />} />
-          <Route path="/manager" element={<Manager />} />
-          <Route path="/inventory-clerk" element={<InvertaryClerk />} /> */}
+          <Route path="/home" element={<Home />} />
+          <Route path='/dashboard' element={<DashboardNavbar/>}/>
+          <Route path="/inventoryClerkMenu" element={<InvertaryClerk />} />
+          <Route path="/managerMenu" element={<Manager />} />
+          <Route path="/salesmanMenu" element={<Salesman />} />
+          <Route path="/ownerMenu" element={<Owner />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </div>
   );
 }

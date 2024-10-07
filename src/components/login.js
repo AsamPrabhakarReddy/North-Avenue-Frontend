@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
-import { setUser } from './userSlice'; // Adjust the path as necessary
+import { setRole } from './userSlice'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +29,15 @@ const LoginPage = () => {
         text: response.data.message || 'Welcome!',
       });
       
-      // Dispatch the setUser action with user data
-      dispatch(setUser(response.data.user)); // Save user data in Redux state
-      console.log(response.data.user.role);
+      const userRole = response.data.user.role;
+      console.log(userRole);
+
+
+      // Dispatch the role to Redux
+      dispatch(setRole(userRole));
       // Optionally redirect or update the UI here
+
+      navigate('/dashboard')
     } catch (error) {
       // Display error message
       Swal.fire({
