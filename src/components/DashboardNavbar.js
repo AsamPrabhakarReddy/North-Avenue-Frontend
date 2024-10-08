@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FaHome } from "react-icons/fa"; 
-
+import SalesmanHero from "./salesmanHero";
 
 const DashboardNavbar = () => {
   const [nav, setNav] = useState(false);
@@ -33,7 +33,7 @@ const DashboardNavbar = () => {
 
   const salesmanMenu = [
     { name: "Dashboard", path: "/salesmanMenu", icon: FaHome },
-    { name: "Sales Task 1", path: "/salesman/task1", icon: FaHome },
+    { name: "View Selled Cars", path: "/soldCars", icon: FaHome },
     { name: "Sales Task 2", path: "/salesman/task2", icon: FaHome },
     // { name: "My Profile", path: `/profile/${user?._id}`, icon: FaHome },
   ];
@@ -55,6 +55,9 @@ const DashboardNavbar = () => {
       : role === "Inventory Clerks"
       ? inventoryClerkMenu
       : [];
+
+      const renderHeroSection =
+      role === "Salesman" ? <SalesmanHero /> : null;
 
   return (
     <div>
@@ -105,6 +108,9 @@ const DashboardNavbar = () => {
           </div>
         </div>
       </div>
+
+      {renderHeroSection}
+
     </div>
 
 

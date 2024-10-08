@@ -73,18 +73,18 @@ function SalesmanHero() {
 
             console.log("API Response:", response.data); // Log the API response
 
-            if (response.data.length < 1) {
+            if (response.data.message === 'Sorry, User Not There, Please add the customer to sell the Car') {
                 Swal.fire({
                     icon: 'info',
                     title: 'No Results Found',
                     text: 'Customer Not found.',
                 });
-                
-            } else {
+            }
+             else {
                 Swal.fire({
                     icon: 'success',
                     title: 'Results Found',
-                    text: 'Customer found, Happy selling',
+                    text: `Customer found, You can sell to ${searchedCustomer}`,
                 });
             }
         } catch (error) {
@@ -139,8 +139,13 @@ function SalesmanHero() {
         }
     };
 
+    const handleCancel = () => {
+       setShowAddCustomerForm(false)
+    };
+    
+
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full flex items-center justify-center ">
             <div className="absolute max-w-[1400px] mt-[150px] flex flex-col p-5 mx-auto">
                 <h1 className="text-gray-550 text-3xl text-center font-bold p-5">Welcome to Salesman Page</h1>
 
@@ -192,25 +197,128 @@ function SalesmanHero() {
 
                 {/* Conditional rendering of the add customer form */}
                 {!showResults && showAddCustomerForm && (
-                    <div className="absolute max-w-[800px] mt-5 mx-auto p-5 bg-white text-center shadow-lg rounded-lg">
-                        <h2 className="text-lg font-bold mb-4">Add Customer</h2>
-                        <form onSubmit={handleAddCustomer}>
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Street" value={customerData.street} onChange={(e) => setCustomerData({ ...customerData, street: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="City" value={customerData.city} onChange={(e) => setCustomerData({ ...customerData, city: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="State" value={customerData.state} onChange={(e) => setCustomerData({ ...customerData, state: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Postal Code" value={customerData.postal_code} onChange={(e) => setCustomerData({ ...customerData, postal_code: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Phone Number" value={customerData.phone_number} onChange={(e) => setCustomerData({ ...customerData, phone_number: e.target.value })} required />
-                            <input type="email" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Email" value={customerData.email} onChange={(e) => setCustomerData({ ...customerData, email: e.target.value })} />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Customer Type" value={customerData.customer_type} onChange={(e) => setCustomerData({ ...customerData, customer_type: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="First Name" value={customerData.first_name} onChange={(e) => setCustomerData({ ...customerData, first_name: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Last Name" value={customerData.last_name} onChange={(e) => setCustomerData({ ...customerData, last_name: e.target.value })} required />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Driver License" value={customerData.driver_license} onChange={(e) => setCustomerData({ ...customerData, driver_license: e.target.value })} />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Business Name" value={customerData.business_name} onChange={(e) => setCustomerData({ ...customerData, business_name: e.target.value })} />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Contact Name" value={customerData.contact_name} onChange={(e) => setCustomerData({ ...customerData, contact_name: e.target.value })} />
-                            <input type="text" className="w-full mb-2 p-2 border border-gray-300 rounded" placeholder="Contact Title" value={customerData.contact_title} onChange={(e) => setCustomerData({ ...customerData, contact_title: e.target.value })} />
-                            <button type="submit" className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg">Add Customer</button>
-                        </form>
-                    </div>
+                   <div className="absolute  flex justify-center items-center bg-opacity-0 p-10 rounded-lg">
+                   <div className="max-w-[800px] p-5 bg-white text-center shadow-lg rounded-lg mt-[20px] p-10">
+                       <h2 className="text-lg font-bold mb-4">Add Customer</h2>
+                       <form onSubmit={handleAddCustomer} className='h-[690px] '>
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Street"
+                               value={customerData.street}
+                               onChange={(e) => setCustomerData({ ...customerData, street: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="City"
+                               value={customerData.city}
+                               onChange={(e) => setCustomerData({ ...customerData, city: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="State"
+                               value={customerData.state}
+                               onChange={(e) => setCustomerData({ ...customerData, state: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Postal Code"
+                               value={customerData.postal_code}
+                               onChange={(e) => setCustomerData({ ...customerData, postal_code: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Phone Number"
+                               value={customerData.phone_number}
+                               onChange={(e) => setCustomerData({ ...customerData, phone_number: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="email"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Email"
+                               value={customerData.email}
+                               onChange={(e) => setCustomerData({ ...customerData, email: e.target.value })}
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Customer Type"
+                               value={customerData.customer_type}
+                               onChange={(e) => setCustomerData({ ...customerData, customer_type: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="First Name"
+                               value={customerData.first_name}
+                               onChange={(e) => setCustomerData({ ...customerData, first_name: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Last Name"
+                               value={customerData.last_name}
+                               onChange={(e) => setCustomerData({ ...customerData, last_name: e.target.value })}
+                               required
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Driver License"
+                               value={customerData.driver_license}
+                               onChange={(e) => setCustomerData({ ...customerData, driver_license: e.target.value })}
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Business Name"
+                               value={customerData.business_name}
+                               onChange={(e) => setCustomerData({ ...customerData, business_name: e.target.value })}
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Contact Name"
+                               value={customerData.contact_name}
+                               onChange={(e) => setCustomerData({ ...customerData, contact_name: e.target.value })}
+                           />
+                           <input
+                               type="text"
+                               className="w-full mb-2 p-2 border border-gray-300 rounded"
+                               placeholder="Contact Title"
+                               value={customerData.contact_title}
+                               onChange={(e) => setCustomerData({ ...customerData, contact_title: e.target.value })}
+                           />
+                           <div className="flex justify-between mt-4">
+                               <button
+                                   type="submit"
+                                   className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                               >
+                                   Add Customer
+                               </button>
+                               <button
+                                   type="button"
+                                   className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+                                   onClick={handleCancel}
+                               >
+                                   Cancel
+                               </button>
+                           </div>
+                       </form>
+                   </div>
+               </div>
+               
                 )}
 
                 {/* Conditionally render SearchResults */}

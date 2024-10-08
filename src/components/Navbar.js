@@ -8,10 +8,16 @@ import SearchResults from './SearchResults'; // Import the new component
 const Navbar = () => {
   const [searchedWord, setSearchedWord] = useState('');
   const [results, setResults] = useState([]); // State to hold search results
+  const [hasSearched, setHasSearched] = useState(false); // Track if a search has been performed
 
   const handleSearch = async (e) => {
     e.preventDefault();
     console.log("Searching for:", searchedWord); // Log the searched word
+
+    if (!searchedWord) {
+      // If the search word is empty, do nothing
+      return;
+    }
 
     try {
       // Make a POST request to the search endpoint
@@ -22,8 +28,7 @@ const Navbar = () => {
       console.log("API Response:", response.data); // Log the API response
 
       // Assuming results are returned directly in response.data
-      if (response.data.length <1) {
-    
+      if (response.data.length < 1) {
         Swal.fire({
           icon: 'info',
           title: 'No Results Found',
@@ -32,6 +37,7 @@ const Navbar = () => {
       } else {
         // Update the results state with the API response
         setResults(response.data);
+        setHasSearched(true); // Mark that a search has been performed
       }
     } catch (error) {
       // Log error details
@@ -51,7 +57,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center w-full px-4">
           <div className="text-center">
             <Link to={'/home'}>
-            <h2 className="text-colorFour font-bold text-[30px]">North Avenue</h2>
+              <h2 className="text-colorFour font-bold text-[30px]">North Avenue</h2>
             </Link>
           </div>
 
@@ -83,8 +89,12 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Display search results below the navbar */}
-      <SearchResults results={results} />
+      {/* Display search results only if a search has been performed and results are present */}
+      {hasSearched && (
+        <div className="w-full mt-4">
+          <SearchResults results={results} />
+        </div>
+      )}
     </div>
   );
 };

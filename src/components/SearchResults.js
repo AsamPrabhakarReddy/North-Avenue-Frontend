@@ -12,7 +12,7 @@ const SearchResults = ({ results }) => {
 
   const handleSellClick = async (vehicle) => {
     const { VIN, Selling_Price } = vehicle;
-
+  
     // Show Swal input form for customer details
     const { value: formValues } = await Swal.fire({
       title: 'Enter Sale Details',
@@ -32,10 +32,10 @@ const SearchResults = ({ results }) => {
         };
       },
     });
-
+  
     if (formValues) {
       try {
-        // Send a POST request to sell the car
+        // 1. Send the data to sell the car
         const response = await axios.post('http://localhost:9004/api/sellConfirmation', {
           customer_name: formValues.customer_name,
           customer_number: formValues.customer_number,
@@ -43,38 +43,54 @@ const SearchResults = ({ results }) => {
           sale_date: formValues.sale_date,
           VIN, // Pass the vehicle VIN
         });
-
+  
         if (response.data.message === "Car successfully sold") {
-          // Show success message using Swal
-          Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: 'Car successfully sold.',
+          // 2. Once the car is successfully sold, delete the vehicle from the database
+          const deleteResponse = await axios.delete('http://localhost:9004/api/deleteVehicleAfterSold', {
+            data: { VIN } // Pass the VIN in the request body
           });
+  
+          if (deleteResponse.data.message === "Vehicle successfully deleted") {
+            // Show success message for both operations
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Car successfully sold and deleted from the database.',
+            });
+          } else {
+            throw new Error('Failed to delete vehicle');
+          }
         } else {
           throw new Error('Failed to sell the car');
         }
       } catch (error) {
-        console.error('Error during car sale:', error);
+        console.error('Error during car sale or deletion:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error!',
-          text: 'An error occurred while selling the car.',
+          text: 'An error occurred while selling or deleting the car.',
         });
       }
     }
   };
+  
 
-  if (results.length === 0) return null; // Don't render if there are no results
+  // If no results, show a message
+ 
 
   return (
-    <div className="w-full max-w-[1400px] mx-auto mt-4 bg-gray-300 h-screen">
-      <h3 className="text-lg font-bold mb-2 p-5">Search Results</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div className="absolute w-full min-h-screen flex flex-col items-center justify-start bg-gray-100 p-4">
+      <h3 className="text-lg font-bold mb-4">Search Results</h3>
+      
+      {/* Full-screen flex container with a responsive grid layout */}
+      <div className="grid grid-cols-2  gap-4 w-full max-w-screen-xl">
         {results.map((vehicle) => (
-          <div key={vehicle.VIN} className="border p-4 rounded-lg shadow-lg bg-white flex flex-col gap-[10px]">
+          <div
+            key={vehicle.VIN}
+            className="border p-4 rounded-lg shadow-lg bg-white flex flex-col gap-4 justify-between"
+          >
             <h4 className="font-semibold">
-              <p><strong>Vehicle Type:</strong> {vehicle.Manufacturer_name} </p>
+              <p><strong>Vehicle Type:</strong> {vehicle.Manufacturer_name}</p>
             </h4>
             <p><strong>Model:</strong> {vehicle.Model_year}</p>
             <p><strong>VIN:</strong> {vehicle.VIN}</p>
@@ -85,7 +101,7 @@ const SearchResults = ({ results }) => {
             <button
               type="button"
               onClick={() => handleSellClick(vehicle)} // Trigger the sell function on button click
-              className="w-2/3 mx-auto px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition duration-300"
+              className="w-full px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition duration-300"
             >
               Sell
             </button>
