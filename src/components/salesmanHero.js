@@ -72,8 +72,8 @@ function SalesmanHero() {
             });
 
             console.log("API Response:", response.data); // Log the API response
-
-            if (response.data.message === 'Sorry, User Not There, Please add the customer to sell the Car') {
+            console.log("API Response:", response.status); 
+            if (response.status == 404) {
                 Swal.fire({
                     icon: 'info',
                     title: 'No Results Found',

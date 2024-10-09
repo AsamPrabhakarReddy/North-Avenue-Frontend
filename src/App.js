@@ -15,7 +15,7 @@ import SoldCars from './components/salesmanHistory';
 function App() {
   return (
     <div>
-      
+      {/* <Manager/> */}
       
       {/* <NavbarSalesman/>
       <SalesmanHero/> */}
@@ -28,12 +28,12 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<Home />} />
           <Route path='/dashboard' element={<DashboardNavbar/>}/>
-          <Route path='/salesmanMenu' element={<SalesmanHero/>}/>
+          {/* <Route path='/salesmanMenu' element={<SalesmanHero/>}/> */}
           <Route path='/soldCars' element={<SoldCars/>}/>
           <Route path="/inventoryClerkMenu" element={<InvertaryClerk />} />
-          <Route path="/managerMenu" element={<Manager />} />
+          {/* <Route path="/managerMenu" element={<Manager />} />
           <Route path="/salesmanMenu" element={<Salesman />} />
-          <Route path="/ownerMenu" element={<Owner />} />
+          <Route path="/ownerMenu" element={<Owner />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

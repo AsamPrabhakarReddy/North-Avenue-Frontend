@@ -34,8 +34,8 @@ const DashboardNavbar = () => {
   const salesmanMenu = [
     { name: "Dashboard", path: "/salesmanMenu", icon: FaHome },
     { name: "View Selled Cars", path: "/soldCars", icon: FaHome },
-    { name: "Sales Task 2", path: "/salesman/task2", icon: FaHome },
-    // { name: "My Profile", path: `/profile/${user?._id}`, icon: FaHome },
+    // { name: "Sales Task 2", path: "/salesman/task2", icon: FaHome },
+    { name: "My Profile", path: `/profile`, icon: FaHome },
   ];
 
   const inventoryClerkMenu = [
